@@ -86,9 +86,15 @@ optionsRunner <- function(symbol="AAPL"){
   
   ####
   calls <- interp(calls[,1], calls[,2], calls[,3])
-  callsDF <- na.omit(as.data.frame(calls))
+  interpolatedCalls <- interp2xyz(calls)
+  
+  x <- as.matrix(interpolatedCalls[,1])
+  y <- as.matrix(interpolatedCalls[,2])
+  z <- as.matrix(interpolatedCalls[,3])
+  
   puts <- interp(puts[,1], puts[,2], puts[,3])
-  puts <- na.omit(as.data.frame(puts))
+  interpolatedPuts <- interp2xyz(puts)
+  
   callsJSON <- toJSON(calls)
   putsJSON <- toJSON(puts)
 
