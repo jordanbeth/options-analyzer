@@ -14,6 +14,7 @@
 
   // Called when the Visualization API is loaded.
   function drawVisualization(stockOptions) {
+    
     // Create and populate a data table.
     var data = new vis.DataSet();
     for (var i = 0; i < stockOptions.length; i++) {
@@ -33,8 +34,7 @@
       backgroundColor: 'light gray',
       xLabel: "Strike",
       yLabel: "Days to Expiration",
-      zLabel: "Price",
-      showGrid: true
+      zLabel: "Price"
     };
    
    

@@ -8,10 +8,22 @@
 #
 
 library(shiny)
+source('./yahooOptionsQuote.R')
 
-# Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-   
-
+  
+  observeEvent(input$options1Button, {
+    optionsRunner("AAPL")
+    #js$refresh();
+    # print("hey")
+  })
+  
+  observeEvent(input$options2Button, {
+    #optionsRunner("MSFT")
+  })
+  
+  observeEvent(input$options3Button, {
+    # optionsRunner("IBM")
+  })
   
 })

@@ -9,26 +9,35 @@
 
 library(shiny)
 library(shinythemes)
+library(shinyjs)
+library(V8)
+
+jscode <- "shinyjs.refresh = function() { history.go(0); }"
 
 # Define UI for application
 shinyUI(fluidPage(theme=shinytheme("cosmo"),
-  
+    useShinyjs(),
+    extendShinyjs(text = jscode),
   # Application title
     titlePanel("Options Analyzer"),
     tags$head(tags$script(src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.js")),
-    tags$head(includeScript("./www/calls.js")),
-    tags$head(includeScript("./www/puts.js")),
     tags$head(includeScript("./www/surface.js")),
+    tags$head(includeScript("./calls.js")),
+    tags$head(includeScript("./puts.js")),
+  
     sidebarLayout(
    
       sidebarPanel(
-        selectInput("company", "Choose a company:",
-                  choices = c("AAPL", "MSFT", "IBM"), selectize=TRUE)),
+        actionButton("options1Button", "AAPL"),
+        br(),br(),
+        actionButton("options2Button", "MSFT"),
+        br(),br(),
+        actionButton("options3Button", "IBM")
+      ),
     
       mainPanel(
         includeHTML("index.html")
       )
     )
-  
   )
 )
