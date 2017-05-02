@@ -41,7 +41,6 @@ optionsRunner <- function(symbol="AAPL"){
     lst <- list(jsonCalls, jsonPuts)
     
     return(lst)
-    
   }
   
   #######
@@ -56,8 +55,8 @@ optionsRunner <- function(symbol="AAPL"){
     
     callsData <- as.data.frame(concatCalls)
     names(callsData) <- c("Strike", "Days to Expiration", "Price")
+    
     return(callsData)
-      
   }
   
   #######
@@ -72,7 +71,26 @@ optionsRunner <- function(symbol="AAPL"){
     
     putsData <- as.data.frame(concatPuts)
     names(putsData) <- c("Strike", "Days to Expiration", "Price")
+    
     return(putsData)
+  }
+  
+  interpolater <- function(options){
+    optionsInterp <- interp(options[,1], options[,2], options[,3], xo=seq(20, 215, 5), yo=seq(3, 20, 1), extrap=TRUE)
+    interpMatrix <- interp2xyz(optionsInterp)
+    
+    # approximate NA values in object
+    interpNAApprox <- na.approx(interpoMatrix)
+    # make remaining uninterpolated values 0
+    interpNAApprox[,3][is.na(interpolatedCallsNAApprox[,3])] <- 0
+    
+    x <- as.matrix(interpNAApprox[,1])
+    y <- as.matrix(interpNAApprox[,2])
+    z <- as.matrix(interNAApprox[,3])
+    optionsMatrix <- list(x, y, z)
+    
+    # return separate matricies for each variable
+    return(optionsMatrix)
   }
   
   ####### 
@@ -97,21 +115,25 @@ optionsRunner <- function(symbol="AAPL"){
     puts <- formatPuts(puts)
 
     ####
-  
     # Time to expiry using time of expiry in Epoch minus the current time
     timeToExpEpoch <- function(timeOfExp){
+      timeOfExp <- as.numeric(timeOfExp)
       timeNow <- as.numeric(Sys.time())
       (timeOfExp - timeNow) / (24*60*60)
     }
-    print(calls)
-    # convert the Epoch time to expiry into Days
-    calls["Days to Expiration"] <- floor(sapply(calls["Days to Expiration"], function(x){timeToExpEpoch(as.numeric(x))}))
     
     # convert the Epoch time to expiry into Days
-    calls["Days to Expiration"] <- floor(sapply(calls["Days to Expiration"], timeToExpEpoch) / (24*60*60))
+    calls["Days to Expiration"] <- floor(sapply(calls["Days to Expiration"], timeToExpEpoch))
+ 
+    print(calls$Strike[1])
+    # convert the Epoch time to expiry into Days
+    puts["Days to Expiration"] <- floor(sapply(puts["Days to Expiration"], timeToExpEpoch))
     
-    return(calls)
-  
+    # ERROR
+    interpolatedCallsList <- interpolater(calls)
+    interpolatedPutsList <- interpolater(puts)
+    
+    return(interpolatedCallsList)
   }
   
   ##### Invoked on function call
@@ -126,23 +148,7 @@ optionsRunner <- function(symbol="AAPL"){
 
 
 
-  ####
-  #calls <- interp(calls[,1], calls[,2], calls[,3], xo=seq(20, 215, 5), yo=seq(3, 20, 1), extrap=TRUE)
-  #interpolatedCalls <- interp2xyz(calls)
-  
-  # approximate NA values in object
-  # interpolatedCallsNAApprox <- na.approx(interpolatedCalls)
-  # interpolatedCallsNAApprox[,3][is.na(interpolatedCallsNAApprox[,3])] <- 0
-  
-  #x <- as.matrix(interpolatedCallsNAApprox[,1])
-  #y <- as.matrix(interpolatedCallsNAApprox[,2])
-  #z <- as.matrix(interpolatedCallsNAApprox[,3])
-  
-  # convert NA to 0 for graphing
-  #z[is.na(z)] <- 0
-  
-  #puts <- interp(puts[,1], puts[,2], puts[,3])
-  #interpolatedPuts <- interp2xyz(puts)
+ ####
   
   #callsJSON <- toJSON(calls)
   #putsJSON <- toJSON(puts)
@@ -153,6 +159,6 @@ optionsRunner <- function(symbol="AAPL"){
   # write(callsJSON, file="test.js"))
   # write.csv(interpolatedCallsNAApprox, file = "mayCalls", row.names = FALSE)
   # write.csv(puts, file = "mayPuts", row.names = FALSE)
-  #return(interpolatedCallsNAApprox)
+
 
  
