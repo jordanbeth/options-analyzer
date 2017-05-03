@@ -8,22 +8,20 @@
 #
 
 library(shiny)
-source('./yahooOptionsQuote.R')
+library(devtools)
+library(vis3D)
+source('./optionsQuoteAnalyzer.R')
+
 
 shinyServer(function(input, output) {
   
-  observeEvent(input$options1Button, {
-    optionsRunner("AAPL")
-    #js$refresh();
-    # print("hey")
+  observeEvent(input$go, {
+    options <- initializer(input$company)
+    data <- as.data.frame(options)
+    # print(input$company)
+    output$graph <- renderVis3D(vis3D(data))
+    
   })
   
-  observeEvent(input$options2Button, {
-    #optionsRunner("MSFT")
-  })
-  
-  observeEvent(input$options3Button, {
-    # optionsRunner("IBM")
-  })
   
 })

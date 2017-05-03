@@ -9,30 +9,23 @@
 
 library(shiny)
 library(shinythemes)
-library(shinyjs)
-library(V8)
-
-jscode <- "shinyjs.refresh = function() { history.go(0); }"
+library(vis3D)
 
 # Define UI for application
 shinyUI(fluidPage(theme=shinytheme("cosmo"),
-    useShinyjs(),
-    extendShinyjs(text = jscode),
+                  
   # Application title
     titlePanel("Options Analyzer"),
-    tags$head(tags$script(src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.js")),
-    tags$head(includeScript("./www/surface.js")),
-    tags$head(includeScript("./calls.csv")),
-    tags$head(includeScript("./puts.csv")),
   
     sidebarLayout(
    
       sidebarPanel(
-        textInput("company", "Enter Company", placeholder = "e.g. AAPL")
+        textInput("company", "Enter Company Symbol", placeholder = "e.g. AAPL"),
+        actionButton("go", "Go!")
       ),
     
       mainPanel(
-        includeHTML("index.html")
+        vis3DOutput("graph")
       )
     )
   )

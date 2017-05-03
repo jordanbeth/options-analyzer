@@ -5,7 +5,6 @@ library(akima)
 library(zoo)
 library(lubridate)
 
-
 #######  
 scrapeExpiries <- function(symbol){
   baseUrl <- "https://finance.yahoo.com/quote/"
@@ -52,7 +51,7 @@ formatCalls <- function(calls){
   }
   
   callsData <- as.data.frame(concatCalls)
-  names(callsData) <- c("Strike", "Days to Expiration", "Price")
+  names(callsData) <- c("x", "y", "z")
   
   return(callsData)
 }
@@ -68,7 +67,7 @@ formatPuts <- function(puts){
   }
   
   putsData <- as.data.frame(concatPuts)
-  names(putsData) <- c("Strike", "Days to Expiration", "Price")
+  names(putsData) <- c("x", "y", "z")
   
   return(putsData)
 }
@@ -127,28 +126,28 @@ initializer <- function(symbol){
   }
   
   # convert the Epoch time to expiry into Days
-  calls["Days to Expiration"] <- floor(sapply(calls["Days to Expiration"], timeToExpEpoch))
+  calls["y"] <- floor(sapply(calls["y"], timeToExpEpoch))
  
   # convert the Epoch time to expiry into Days
-  puts["Days to Expiration"] <- floor(sapply(puts["Days to Expiration"], timeToExpEpoch))
+  puts["y"] <- floor(sapply(puts["y"], timeToExpEpoch))
   
   # Interpolate the data from the calls
   interpolatedCallsList <- interpolater(calls)
-  colnames(interpolatedCallsList) <- c("Strike", "Days to Expiry", "Price")
+  colnames(interpolatedCallsList) <- c("x", "y", "z")
   
   # Interpolate the data from the puts
   interpolatedPutsList <- interpolater(puts)
-  colnames(interpolatedPutsList) <- c("Strike", "Days to Expiry", "Price")
+  colnames(interpolatedPutsList) <- c("x", "y", "z")
   
-  write.csv(interpolatedCallsList, file="calls.csv", row.names = FALSE)
-  write.csv(interpolatedPutsList, file="puts.csv", row.names = FALSE)
+ # write.csv(interpolatedCallsList, file="calls.csv", row.names = FALSE)
+ # write.csv(interpolatedPutsList, file="puts.csv", row.names = FALSE)
   
   return(interpolatedCallsList)
 }
   
 ##### Run initializer
-symbol <- "MSFT"
-initializer(symbol)
+# symbol <- "MSFT"
+# MSFT <- initializer(symbol)
 
 
 
