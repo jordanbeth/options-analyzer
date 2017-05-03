@@ -22,17 +22,13 @@ shinyUI(fluidPage(theme=shinytheme("cosmo"),
     titlePanel("Options Analyzer"),
     tags$head(tags$script(src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis.js")),
     tags$head(includeScript("./www/surface.js")),
-    tags$head(includeScript("./calls.js")),
-    tags$head(includeScript("./puts.js")),
+    tags$head(includeScript("./calls.csv")),
+    tags$head(includeScript("./puts.csv")),
   
     sidebarLayout(
    
       sidebarPanel(
-        actionButton("options1Button", "AAPL"),
-        br(),br(),
-        actionButton("options2Button", "MSFT"),
-        br(),br(),
-        actionButton("options3Button", "IBM")
+        textInput("company", "Enter Company", placeholder = "e.g. AAPL")
       ),
     
       mainPanel(

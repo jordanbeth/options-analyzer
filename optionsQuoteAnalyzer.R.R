@@ -99,7 +99,7 @@ interpolater <- function(options){
   
 ####### 
 # *Invoked to run script
-initializer <- function(){
+initializer <- function(symbol){
   
   # getting the dates from the html of the website and turning them into strings
   dates <- scrapeExpiries(symbol)
@@ -147,7 +147,8 @@ initializer <- function(){
 }
   
 ##### Run initializer
-initializer()
+symbol <- "MSFT"
+initializer(symbol)
 
 
 
