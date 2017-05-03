@@ -18,7 +18,6 @@ shinyServer(function(input, output) {
   observeEvent(input$go, {
     options <- initializer(input$company)
     data <- as.data.frame(options)
-    # print(input$company)
     output$graph <- renderVis3D(vis3D(data))
     
   })
