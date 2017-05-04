@@ -18,14 +18,15 @@ shinyServer(function(input, output) {
   observeEvent(input$calls, {
     options <- initializer(input$company)
     calls <- as.data.frame(options[[1]])
-    output$graph <- renderVis3D(vis3D(calls))
+    graph <- visOptions3D(vis3D(calls), animationAutoStart = TRUE, showShadow = TRUE, xLabel = "Strike", yLabel = "Days to Expiry", zLabel = "Price")
+    output$graph <- renderVis3D(graph)
   })
   
   observeEvent(input$puts, {
     options <- initializer(input$company)
     puts <- as.data.frame(options[[2]])
-    output$graph <- renderVis3D(vis3D(puts))
-    
+    graph <- visOptions3D(vis3D(puts), xLabel = "Strike", yLabel = "Days to Expiry", zLabel = "Price")
+    output$graph <- renderVis3D(graph)
   })
   
 })
