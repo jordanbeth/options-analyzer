@@ -10,6 +10,7 @@
 library(shiny)
 library(shinythemes)
 library(vis3D)
+library(rsconnect)
 
 # Define UI for application
 shinyUI(fluidPage(
