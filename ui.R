@@ -17,12 +17,15 @@ shinyUI(fluidPage(
   
   # Application title
   titlePanel("Options Analyzer"),
+  hr(),
   
   sidebarLayout(
     sidebarPanel(
       textInput("company", "Enter Company Symbol", placeholder = "e.g. AAPL"),
       actionButton("calls", "Get Calls!"),
       actionButton("puts", "Get Puts!"),
+      br(),
+      br(),
       textOutput("error")
     ),
     
