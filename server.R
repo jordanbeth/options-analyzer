@@ -15,12 +15,17 @@ source('./optionsQuoteAnalyzer.R')
 
 shinyServer(function(input, output) {
   
-  observeEvent(input$go, {
+  observeEvent(input$calls, {
     options <- initializer(input$company)
-    data <- as.data.frame(options)
-    output$graph <- renderVis3D(vis3D(data))
-    
+    calls <- as.data.frame(options[[1]])
+    output$graph <- renderVis3D(vis3D(calls))
   })
   
+  observeEvent(input$puts, {
+    options <- initializer(input$company)
+    puts <- as.data.frame(options[[2]])
+    output$graph <- renderVis3D(vis3D(puts))
+    
+  })
   
 })

@@ -51,7 +51,9 @@ formatCalls <- function(calls){
   }
   
   callsData <- as.data.frame(concatCalls)
-  names(callsData) <- c("x", "y", "z")
+  tryCatch(names(callsData) <- c("x", "y", "z"), 
+           error = function(e){ print("options info NOT found") }
+          )
   
   return(callsData)
 }
@@ -141,8 +143,9 @@ initializer <- function(symbol){
   
  # write.csv(interpolatedCallsList, file="calls.csv", row.names = FALSE)
  # write.csv(interpolatedPutsList, file="puts.csv", row.names = FALSE)
+  callsPuts <- list(interpolatedCallsList, interpolatedPutsList)
   
-  return(interpolatedCallsList)
+  return(callsPuts)
 }
   
 ##### Run initializer

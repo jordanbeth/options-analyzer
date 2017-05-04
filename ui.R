@@ -21,7 +21,8 @@ shinyUI(fluidPage(theme=shinytheme("cosmo"),
    
       sidebarPanel(
         textInput("company", "Enter Company Symbol", placeholder = "e.g. AAPL"),
-        actionButton("go", "Go!")
+        actionButton("calls", "Get Calls!"),
+        actionButton("puts", "Get Puts!")
       ),
     
       mainPanel(
