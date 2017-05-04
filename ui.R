@@ -21,6 +21,7 @@ shinyUI(fluidPage(
   
   sidebarLayout(
     sidebarPanel(
+      tags$head(tags$style("#graph{height:80vh !important;}")),
       textInput("company", "Enter Company Symbol", placeholder = "e.g. AAPL"),
       actionButton("calls", "Get Calls!"),
       actionButton("puts", "Get Puts!"),
