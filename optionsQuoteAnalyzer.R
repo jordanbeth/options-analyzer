@@ -148,9 +148,6 @@ initializer <- function(symbol){
   return(callsPuts)
 }
   
-##### Run initializer
-# symbol <- "MSFT"
-# MSFT <- initializer(symbol)
 
 
 

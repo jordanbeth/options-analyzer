@@ -39,7 +39,7 @@ shinyServer(function(input, output) {
                           xLabel = "Strike", 
                           yLabel = "Days to Expiry", 
                           zLabel = "Price"
-                          )
+                         )
     
     output$graph <- renderVis3D(graph)
   })
