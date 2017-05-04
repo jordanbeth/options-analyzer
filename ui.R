@@ -3,7 +3,7 @@
 # run the application by clicking 'Run App' above.
 #
 # Find out more about building applications with Shiny here:
-# 
+#
 #    http://shiny.rstudio.com/
 #
 
@@ -12,22 +12,20 @@ library(shinythemes)
 library(vis3D)
 
 # Define UI for application
-shinyUI(fluidPage(theme=shinytheme("cosmo"),
-                  
-  # Application title
-    titlePanel("Options Analyzer"),
+shinyUI(fluidPage(
+  theme = shinytheme("cosmo"),
   
-    sidebarLayout(
-   
-      sidebarPanel(
-        textInput("company", "Enter Company Symbol", placeholder = "e.g. AAPL"),
-        actionButton("calls", "Get Calls!"),
-        actionButton("puts", "Get Puts!")
-      ),
+  # Application title
+  titlePanel("Options Analyzer"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      textInput("company", "Enter Company Symbol", placeholder = "e.g. AAPL"),
+      actionButton("calls", "Get Calls!"),
+      actionButton("puts", "Get Puts!"),
+      textOutput("error")
+    ),
     
-      mainPanel(
-        vis3DOutput("graph")
-      )
-    )
+    mainPanel(vis3DOutput("graph"))
   )
-)
+))
